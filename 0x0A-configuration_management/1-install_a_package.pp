@@ -1,16 +1,14 @@
-package { ['python3', 'python3-pip']:
-  ensure => 'installed',
+# This manifest installs Flask 2.1.0 and Werkzeug 2.1.1 using pip3
+
+exec { 'install Flask 2.1.0':
+  command => 'pip3 install Flask==2.1.0',
+  unless  => 'pip3 freeze | grep Flask==2.1.0',
+  path    => ['/bin', '/usr/bin', '/sbin', '/usr/sbin'],
 }
 
-package { 'flask':
-  ensure    => '2.1.0',
-  provider  => 'pip',
-  require   => Package['python3-pip'],
+exec { 'install Werkzeug 2.1.1':
+  command => 'pip3 install Werkzeug==2.1.1',
+  unless  => 'pip3 freeze | grep Werkzeug==2.1.1',
+  path    => ['/bin', '/usr/bin', '/sbin', '/usr/sbin'],
+  require => Exec['install Flask 2.1.0'], # Ensure Flask is installed first
 }
-
-package { 'werkzeug':
-  ensure    => '2.1.1',
-  provider  => 'pip',
-  require   => Package['python3-pip'],
-}
-
