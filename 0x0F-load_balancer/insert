@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sed -i '/server_name _;/ a\
+	josh is a programmer' file

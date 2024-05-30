@@ -11,14 +11,14 @@ apt-get -y install haproxy
 # edit config file
 server_config=\
 "
-frontend  besthor_frontend
+frontend  chymezy_frontend
         bind *:80
         mode http
-        default_backend besthor_backend
-backend besthor_backend
+        default_backend chymezy_backend
+backend chymezy_backend
         balance roundrobin
-        server 502735-web-01 54.242.107.150:80 check
-        server 502735-web-02 54.162.229.74:80 check
+        server 502735-web-01 100.26.239.129:80 check
+        server 502735-web-02 54.175.134.251:80 check
 "
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
