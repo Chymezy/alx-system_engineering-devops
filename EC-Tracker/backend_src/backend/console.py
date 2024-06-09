@@ -1,161 +1,66 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from app import create_app, db
-from app.models import User, EnergyRecord, Analytics
+import cmd
+from datetime import datetime
+from .models import db, User, EnergyRecord, Analytics
+from app import app
 
-app = create_app()
-migrate = Migrate(app, db)
+class Console(cmd.Cmd):
+    intro = 'Welcome to the Energy Consumption Tracker console. Type help or ? to list commands.\n'
+    prompt = '(tracker) '
 
-@app.shell_context_processor
-def make_shell_context():
-    return {'db': db, 'User': User, 'EnergyRecord': EnergyRecord, 'Analytics': Analytics}
-
-def create_user(username, email, password):
-    try:
+    def do_create_user(self, arg):
+        'Create a new user: create_user username email password'
+        args = arg.split()
+        if len(args) != 3:
+            print("Usage: create_user username email password")
+            return
+        username, email, password = args
         user = User(username=username, email=email, password=password)
         db.session.add(user)
         db.session.commit()
-        print(f"User {username} created successfully with ID {user.id}.")
-    except Exception as e:
-        print(f"Error creating user: {e}")
+        print(f"User {username} created with id {user.id}")
 
-def update_user(user_id, **kwargs):
-    user = User.query.get(user_id)
-    if not user:
-        print(f"User ID {user_id} not found.")
-        return
-    try:
-        for key, value in kwargs.items():
-            setattr(user, key, value)
-        db.session.commit()
-        print(f"User ID {user_id} updated successfully.")
-    except Exception as e:
-        print(f"Error updating user: {e}")
-
-def delete_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        print(f"User ID {user_id} not found.")
-        return
-    try:
-        db.session.delete(user)
-        db.session.commit()
-        print(f"User ID {user_id} deleted successfully.")
-    except Exception as e:
-        print(f"Error deleting user: {e}")
-
-def create_energy_record(user_id, date, consumption):
-    user = User.query.get(user_id)
-    if not user:
-        print(f"User ID {user_id} not found.")
-        return
-    try:
-        record = EnergyRecord(user_id=user.id, date=date, consumption=consumption)
-        db.session.add(record)
-        db.session.commit()
-        print(f"Energy record for User ID {user_id} on {date} created successfully with Record ID {record.id}.")
-    except Exception as e:
-        print(f"Error creating energy record: {e}")
-
-def update_energy_record(record_id, **kwargs):
-    record = EnergyRecord.query.get(record_id)
-    if not record:
-        print(f"Energy record ID {record_id} not found.")
-        return
-    try:
-        for key, value in kwargs.items():
-            setattr(record, key, value)
-        db.session.commit()
-        print(f"Energy record ID {record_id} updated successfully.")
-    except Exception as e:
-        print(f"Error updating energy record: {e}")
-
-def delete_energy_record(record_id):
-    record = EnergyRecord.query.get(record_id)
-    if not record:
-        print(f"Energy record ID {record_id} not found.")
-        return
-    try:
-        db.session.delete(record)
-        db.session.commit()
-        print(f"Energy record ID {record_id} deleted successfully.")
-    except Exception as e:
-        print(f"Error deleting energy record: {e}")
-
-def inspect_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        print(f"User ID {user_id} not found.")
-        return
-    print(f"User ID: {user.id}")
-    print(f"Username: {user.username}")
-    print(f"Email: {user.email}")
-    print(f"Created At: {user.created_at}")
-    print(f"Updated At: {user.updated_at}")
-
-def interpret_command(command):
-    try:
-        parts = command.split()
-        action = parts[0].lower()
-        if action == 'create':
-            if parts[1].lower() == 'user':
-                _, _, username, email, password = parts
-                create_user(username, email, password)
-            elif parts[1].lower() == 'energyrecord':
-                _, _, user_id, date, consumption = parts
-                create_energy_record(int(user_id), date, float(consumption))
-        elif action == 'update':
-            if parts[1].lower() == 'user':
-                _, _, user_id, *updates = parts
-                update_fields = dict(zip(updates[::2], updates[1::2]))
-                update_user(int(user_id), **update_fields)
-            elif parts[1].lower() == 'energyrecord':
-                _, _, record_id, *updates = parts
-                update_fields = dict(zip(updates[::2], updates[1::2]))
-                update_energy_record(int(record_id), **update_fields)
-        elif action == 'delete':
-            if parts[1].lower() == 'user':
-                _, _, user_id = parts
-                delete_user(int(user_id))
-            elif parts[1].lower() == 'energyrecord':
-                _, _, record_id = parts
-                delete_energy_record(int(record_id))
-        elif action == 'inspect':
-            if parts[1].lower() == 'user':
-                _, _, user_id = parts
-                inspect_user(int(user_id))
+    def do_get_user(self, arg):
+        'Get user details by username: get_user username'
+        args = arg.split()
+        if len(args) != 1:
+            print("Usage: get_user username")
+            return
+        username = args[0]
+        user = User.query.filter_by(username=username).first()
+        if user:
+            print(f"ID: {user.id}, Username: {user.username}, Email: {user.email}, Created at: {user.created_at}, Updated at: {user.updated_at}")
         else:
-            print("Unknown command.")
-    except Exception as e:
-        print(f"Error processing command: {e}")
-        print("Use the following command formats:")
-        print("Create User: create user <username> <email> <password>")
-        print("Update User: update user <user_id> <field> <new_value> [<field> <new_value>...]")
-        print("Delete User: delete user <user_id>")
-        print("Create Energy Record: create energyrecord <user_id> <date> <consumption>")
-        print("Update Energy Record: update energyrecord <record_id> <field> <new_value> [<field> <new_value>...]")
-        print("Delete Energy Record: delete energyrecord <record_id>")
-        print("Inspect User: inspect user <user_id>")
+            print("User not found")
 
-def main():
-    print("Welcome to the Energy Consumption Tracker Console")
-    print("Type 'help' for a list of commands.")
-    print("Type 'exit' or 'quit' to exit the console.")
-    while True:
-        command = input("Command> ")
-        if command.lower() in ['exit', 'quit']:
-            break
-        elif command.lower() == 'help':
-            print("Available commands:")
-            print("Create User: create user <username> <email> <password>")
-            print("Update User: update user <user_id> <field> <new_value> [<field> <new_value>...]")
-            print("Delete User: delete user <user_id>")
-            print("Create Energy Record: create energyrecord <user_id> <date> <consumption>")
-            print("Update Energy Record: update energyrecord <record_id> <field> <new_value> [<field> <new_value>...]")
-            print("Delete Energy Record: delete energyrecord <record_id>")
-            print("Inspect User: inspect user <user_id>")
+    def do_create_energy(self, arg):
+        'Create an energy record: create_energy user_id date consumption'
+        args = arg.split()
+        if len(args) != 3:
+            print("Usage: create_energy user_id date consumption")
+            return
+        user_id, date_str, consumption = args
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        energy = EnergyRecord(user_id=user_id, date=date, consumption=float(consumption))
+        db.session.add(energy)
+        db.session.commit()
+        print(f"Energy record created with id {energy.id}")
+
+    def do_get_energy(self, arg):
+        'Get energy records by user_id: get_energy user_id'
+        args = arg.split()
+        if len(args) != 1:
+            print("Usage: get_energy user_id")
+            return
+        user_id = args[0]
+        records = EnergyRecord.query.filter_by(user_id=user_id).all()
+        for record in records:
+            print(f"ID: {record.id}, Date: {record.date}, Consumption: {record.consumption}")
+
+    def do_exit(self, arg):
+        'Exit the console'
+        return True
 
 if __name__ == '__main__':
-    main()
+    with app.app_context():
+        Console().cmdloop()
 

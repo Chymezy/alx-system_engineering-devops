@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+#!/bin/bash
+
+# Create directories
+mkdir -p EnergyConsumptionTracker/backend
+mkdir -p EnergyConsumptionTracker/backend/models
+mkdir -p EnergyConsumptionTracker/backend/routes
+mkdir -p EnergyConsumptionTracker/backend/tests
+mkdir -p EnergyConsumptionTracker/backend/utils
+mkdir -p EnergyConsumptionTracker/frontend
+mkdir -p EnergyConsumptionTracker/frontend/public
+mkdir -p EnergyConsumptionTracker/frontend/src
+mkdir -p EnergyConsumptionTracker/frontend/src/components
+mkdir -p EnergyConsumptionTracker/frontend/src/services
+mkdir -p EnergyConsumptionTracker/docker
+
+# Create files
+touch EnergyConsumptionTracker/backend/__init__.py
+touch EnergyConsumptionTracker/backend/app.py
+touch EnergyConsumptionTracker/backend/config.py
+touch EnergyConsumptionTracker/backend/console.py
+touch EnergyConsumptionTracker/backend/requirements.txt
+touch EnergyConsumptionTracker/backend/models/__init__.py
+touch EnergyConsumptionTracker/backend/models/user.py
+touch EnergyConsumptionTracker/backend/models/energy_record.py
+touch EnergyConsumptionTracker/backend/models/analytics.py
+touch EnergyConsumptionTracker/backend/routes/__init__.py
+touch EnergyConsumptionTracker/backend/routes/auth.py
+touch EnergyConsumptionTracker/backend/routes/energy.py
+touch EnergyConsumptionTracker/backend/routes/user.py
+touch EnergyConsumptionTracker/backend/routes/analytics.py
+touch EnergyConsumptionTracker/backend/tests/__init__.py
+touch EnergyConsumptionTracker/backend/tests/test_auth.py
+touch EnergyConsumptionTracker/backend/tests/test_energy.py
+touch EnergyConsumptionTracker/backend/tests/test_user.py
+touch EnergyConsumptionTracker/backend/tests/test_analytics.py
+touch EnergyConsumptionTracker/backend/utils/__init__.py
+touch EnergyConsumptionTracker/backend/utils/db.py
+touch EnergyConsumptionTracker/backend/utils/token.py
+touch EnergyConsumptionTracker/frontend/public/index.html
+touch EnergyConsumptionTracker/frontend/src/api.js
+touch EnergyConsumptionTracker/frontend/src/App.css
+touch EnergyConsumptionTracker/frontend/src/App.js
+touch EnergyConsumptionTracker/frontend/src/components/EnergyRecordList.js
+touch EnergyConsumptionTracker/frontend/src/components/EnergyRecordForm.js
+touch EnergyConsumptionTracker/frontend/src/components/LoginForm.js
+touch EnergyConsumptionTracker/frontend/src/components/RegisterForm.js
+touch EnergyConsumptionTracker/frontend/src/components/Analytics.js
+touch EnergyConsumptionTracker/frontend/src/index.css
+touch EnergyConsumptionTracker/frontend/src/index.js
+touch EnergyConsumptionTracker/frontend/src/services/authService.js
+touch EnergyConsumptionTracker/frontend/src/services/energyService.js
+touch EnergyConsumptionTracker/frontend/src/services/analyticsService.js
+touch EnergyConsumptionTracker/docker/Dockerfile
+touch EnergyConsumptionTracker/docker/docker-compose.yml
+touch EnergyConsumptionTracker/.gitlab-ci.yml
+touch EnergyConsumptionTracker/README.md

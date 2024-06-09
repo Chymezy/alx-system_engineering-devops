@@ -2,32 +2,23 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
-from flask_restful import Api
-from config import Config
+from .config import Config
+from .models import db
+from .user import user_bp
+from .energy import energy_bp
+from .analytics import analytics_bp
 
-db = SQLAlchemy()
-migrate = Migrate()
-jwt = JWTManager()
+app = Flask(__name__)
+app.config.from_object(Config)
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
+db.init_app(app)
+migrate = Migrate(app, db)
+jwt = JWTManager(app)
 
-    db.init_app(app)
-    migrate.init_app(app, db)
-    jwt.init_app(app)
-    api = Api(app)
+app.register_blueprint(user_bp)
+app.register_blueprint(energy_bp)
+app.register_blueprint(analytics_bp)
 
-    from resources.user import UserRegister, UserLogin, UserLogout
-    from resources.energy import EnergyRecordResource, EnergyRecordListResource
-    from resources.analytics import AnalyticsResource
-
-    api.add_resource(UserRegister, '/api/users')
-    api.add_resource(UserLogin, '/api/auth/login')
-    api.add_resource(UserLogout, '/api/auth/logout')
-    api.add_resource(EnergyRecordResource, '/api/energy/<int:id>')
-    api.add_resource(EnergyRecordListResource, '/api/energy')
-    api.add_resource(AnalyticsResource, '/api/analytics')
-
-    return app
+if __name__ == "__main__":
+    app.run(debug=True)
 
