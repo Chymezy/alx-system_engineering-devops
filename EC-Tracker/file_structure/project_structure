@@ -1,0 +1,35 @@
+project-root/
+├── backend/
+│   ├── app.py
+│   ├── config.py
+│   ├── models.py
+│   ├── requirements.txt
+│   ├── console.py
+│   ├── resources/
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── energy.py
+│   │   └── analytics.py
+│   ├── Dockerfile
+│   └── migrations/
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Analytics.js
+│   │   │   ├── Dashboard.js
+│   │   │   ├── EnergyRecordForm.js
+│   │   │   ├── EnergyRecordList.js
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── api.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── index.css
+│   │   └── index.js
+│   ├── package.json
+│   ├── package-lock.json
+│   └── Dockerfile
+├── docker-compose.yml
+└── .gitlab-ci.yml
+

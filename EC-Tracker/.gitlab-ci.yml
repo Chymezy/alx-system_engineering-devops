@@ -1,0 +1,44 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - docker info
+  - echo $CI_JOB_TOKEN | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+
+build_backend:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/backend:latest ./backend
+    - docker push $CI_REGISTRY_IMAGE/backend:latest
+
+build_frontend:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:latest ./frontend
+    - docker push $CI_REGISTRY_IMAGE/frontend:latest
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+  environment:
+    name: production
+    url: https://your-production-url.com
+  only:
+    - master
+

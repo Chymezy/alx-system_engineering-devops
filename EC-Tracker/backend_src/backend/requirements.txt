@@ -1,0 +1,10 @@
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-RESTful
+mysqlclient
+Werkzeug
+
+# pip install -r requirements.txt
+# flask run
+
