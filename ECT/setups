@@ -1,0 +1,27 @@
+Setting Up MySQL and Migrations
+---------------------------------
+1) Start Docker Containers
+
+docker-compose up
+
+2) Initialize Migrations (Run Once)
+
+docker-compose run app flask db init
+docker-compose run app flask db migrate -m "Initial migration"
+docker-compose run app flask db upgrade
+
+
+Summary
+Run Docker locally:
+
+sh
+Copy code
+docker-compose -f docker/docker-compose.yml build
+docker-compose -f docker/docker-compose.yml up
+Initialize the database (if needed):
+
+sh
+Copy code
+docker-compose -f docker/docker-compose.yml run app flask db init
+docker-compose -f docker/docker-compose.yml run app flask db migrate -m "Initial migration"
+docker-compose -f docker/docker-compose.yml run app flask db upgrade

@@ -1,46 +1,32 @@
 version: '3.8'
-
 services:
-  web:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: energy_tracker_web
-    environment:
-      - FLASK_ENV=development
-      - SECRET_KEY=${SECRET_KEY}
-      - DATABASE_URL=mysql+pymysql://root:password@db/energy_db
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+  app:
+    build: .
     ports:
       - "5000:5000"
-    volumes:
-      - ./backend:/app
     depends_on:
       - db
-
+    env_file: .env
+    environment:
+      - FLASK_APP=backend/app.py
+      - FLASK_ENV=development
+    command: >
+      sh -c "flask db upgrade &&
+             flask run --host=0.0.0.0"
+  
   db:
     image: mysql:latest
-    container_name: energy_tracker_db
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: energy_db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: energy_tracker_frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - ./frontend:/app
+      - db_data:/var/lib/mysql
 
 volumes:
-  mysql_data:
+  db_data:
 
