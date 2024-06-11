@@ -1,0 +1,7 @@
+Running the Project
+To build and start your project with Docker:
+
+sh
+Copy code
+docker-compose -f docker/docker-compose.yml build
+docker-compose -f docker/docker-compose.yml up
