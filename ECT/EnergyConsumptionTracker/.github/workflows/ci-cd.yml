@@ -9,6 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -39,6 +51,10 @@ jobs:
         docker-compose -f docker/docker-compose.yml build
         docker tag $(docker-compose images -q app) chymezy/energy-management:latest
         docker push chymezy/energy-management:latest
+
+    - name: Run unittests
+      run: |
+        docker-compose -f docker/docker-compose.yml run --rm app python -m unittest discover -s backend/tests
 
     - name: Deploy to production
       run: |
