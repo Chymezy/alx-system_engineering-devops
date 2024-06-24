@@ -1,5 +1,6 @@
 # backend/models/user.py
 from datetime import datetime
+# noqa: F401
 from werkzeug.security import generate_password_hash, check_password_hash
 from backend.utils.db import db
 
@@ -8,8 +9,8 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
