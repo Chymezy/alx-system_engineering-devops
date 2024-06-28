@@ -9,7 +9,7 @@
 } */
 /* src/index.css */
 
-body {
+/* body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
@@ -49,4 +49,23 @@ button {
 
 button:hover {
   background-color: #0056b3;
+} */
+
+/* src/index.css */
+
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.App > div {
+  flex: 1;
 }

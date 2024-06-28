@@ -33,19 +33,27 @@
 
 // src/App.jsx
 
+// src/App.jsx
+
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import LoginForm from './components/LoginForm';
 import Welcome from './components/Welcome';
 
 const App = () => {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/" element={<div>Home</div>} />
-      </Routes>
+      <Navbar />
+      <div style={{ paddingBottom: '60px' }}> {/* Add padding to avoid footer overlap */}
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/" element={<div>Home</div>} />
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 };
