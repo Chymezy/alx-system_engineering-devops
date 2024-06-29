@@ -55,14 +55,17 @@ button:hover {
 /* src/index.css */
 /* src/index.css */
 /* src/index.css */
+/* src/index.css */
+/* src/index.css */
+/* src/index.css */
 body, html, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden; 
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif; /* Apply Roboto font to the entire application */
+  font-family: 'Roboto', sans-serif; 
 }
 
 .App {
@@ -95,3 +98,7 @@ footer a {
   padding: 0;
   box-sizing: border-box;
 }
+
+/* .main-content {
+  /* padding-top: 64px; Adjust based on your Navbar height
+} 

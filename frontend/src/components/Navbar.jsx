@@ -24,6 +24,22 @@ const Navbar = () => {
         </Button>
         <Button color="inherit" sx={{ margin: '0 8px' }}>
           <NavLink 
+            to="/features" 
+            className={location.pathname === '/welcome' ? 'active-link' : ''}
+          >
+            Features
+          </NavLink>
+        </Button>
+        <Button color="inherit" sx={{ margin: '0 8px' }}>
+          <NavLink 
+            to="/about" 
+            className={location.pathname === '/welcome' ? 'active-link' : ''}
+          >
+            About
+          </NavLink>
+        </Button>
+        <Button color="inherit" sx={{ margin: '0 8px' }}>
+          <NavLink 
             to="/login" 
             className={location.pathname === '/login' ? 'active-link' : ''}
           >
