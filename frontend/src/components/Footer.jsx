@@ -35,9 +35,9 @@
 
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
-import SolarPowerIcon from '../assets/solar-power.svg';
-import ElectricityIcon from '../assets/electricity.svg';
-import EfficiencyIcon from '../assets/efficiency.svg';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
   return (
@@ -51,17 +51,11 @@ const Footer = () => {
         backgroundColor: '#f5f5f5',
         width: '100%',
         boxShadow: '0px -2px 8px rgba(0, 0, 0, 0.1)',
-        position: 'relative', // Change from fixed to relative
+        position: 'relative',
         bottom: 0,
-        mt: 'auto', // Ensure it appears at the bottom after all content
+        mt: 'auto',
       }}
     >
-      <Typography variant="body2" color="textSecondary" style={{ display: 'flex', alignItems: 'center' }}>
-        <img src={SolarPowerIcon} alt="Solar Power" style={{ height: '20px', marginRight: '10px' }} />
-        <img src={ElectricityIcon} alt="Electricity" style={{ height: '20px', marginRight: '10px' }} />
-        <img src={EfficiencyIcon} alt="Efficiency" style={{ height: '20px', marginRight: '10px' }} />
-        &copy; {new Date().getFullYear()} Energy Manager. All rights reserved.
-      </Typography>
       <Box>
         <Link href="#" color="inherit" sx={{ mx: 1 }}>
           Privacy Policy
@@ -72,6 +66,22 @@ const Footer = () => {
         <Link href="#" color="inherit" sx={{ mx: 1 }}>
           Contact Us
         </Link>
+      </Box>
+      <Box>
+        <Link href="https://www.facebook.com" target="_blank" color="inherit" sx={{ mx: 1 }}>
+          <FacebookIcon />
+        </Link>
+        <Link href="https://www.twitter.com" target="_blank" color="inherit" sx={{ mx: 1 }}>
+          <TwitterIcon />
+        </Link>
+        <Link href="https://www.linkedin.com" target="_blank" color="inherit" sx={{ mx: 1 }}>
+          <LinkedInIcon />
+        </Link>
+      </Box>
+      <Box>
+        <Typography variant="body2" color="textSecondary" style={{ display: 'flex', alignItems: 'center' }}>
+          &copy; {new Date().getFullYear()} Energy Manager. All rights reserved.
+        </Typography>
       </Box>
     </Box>
   );
